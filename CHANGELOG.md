@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.2.0 (2025-10-28)
+
+### Features
+
+- Test
+  ([`cd9ef93`](https://github.com/Manonp59/databricks/commit/cd9ef931b0cd303877bdb2bbd88ddaa9cd0af395))
+
+
 ## v0.1.0 (2025-10-28)
 
 ### Features
