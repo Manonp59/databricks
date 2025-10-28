@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/write-tests
 
 jobs:
   test:
