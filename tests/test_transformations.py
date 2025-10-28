@@ -1,5 +1,6 @@
 import pytest
 from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField, StringType
 from scripts.utils import clean_plv, clean_commune, clean_result  
 
 @pytest.fixture(scope="session")
@@ -11,7 +12,7 @@ def test_clean_plv(spark_session):
         {
             "cddept": "1",
             "cdreseau": "23",
-            "inseecommuneprinc": "7",              # colonne attendue !
+            "inseecommuneprinc": "7",              
             "nomcommuneprinc": " Lyon ",
             "cdreseauamont": "",
             "nomreseauamont": None,
@@ -25,7 +26,23 @@ def test_clean_plv(spark_session):
             "moalib": None
         },
     ]
-    df = spark_session.createDataFrame(data)
+    schema = StructType([
+    StructField("cddept", StringType()),
+    StructField("cdreseau", StringType()),
+    StructField("inseecommuneprinc", StringType()),
+    StructField("nomcommuneprinc", StringType()),
+    StructField("cdreseauamont", StringType()),
+    StructField("nomreseauamont", StringType()),
+    StructField("pourcentdebit", StringType()),
+    StructField("referenceprel", StringType()),
+    StructField("dateprel", StringType()),
+    StructField("heureprel", StringType()),
+    StructField("conclusionprel", StringType()),
+    StructField("ugelib", StringType()),
+    StructField("distrlib", StringType()),
+    StructField("moalib", StringType()),
+    ])
+    df = spark_session.createDataFrame(data, schema=schema)
     result = clean_plv(df)
     row = result.collect()[0]
     assert row["cddept"] == "001"
@@ -49,6 +66,25 @@ def test_clean_commune(spark_session):
     assert str(rows[0]["debutalim"]) == "2023-01-05"
 
 def test_clean_result(spark_session):
+    schema = StructType([
+    StructField("cddept", StringType()),
+    StructField("referenceprel", StringType()),
+    StructField("cdparametresiseeaux", StringType()),
+    StructField("cdparametre", StringType()),
+    StructField("libmajparametre", StringType()),
+    StructField("libminparametre", StringType()),
+    StructField("libwebparametre", StringType()),
+    StructField("qualitparam", StringType()),
+    StructField("insituana", StringType()),
+    StructField("rqana", StringType()),
+    StructField("cdunitereferencesiseeaux", StringType()),
+    StructField("cdunitereference", StringType()),
+    StructField("limitequal", StringType()),
+    StructField("refqual", StringType()),
+    StructField("valtraduite", StringType()),
+    StructField("casparam", StringType()),
+    StructField("referenceanl", StringType()),
+    ])
     input_data = [{
         "cddept":"1",
         "referenceprel":" ref1 ",
@@ -68,7 +104,7 @@ def test_clean_result(spark_session):
         "casparam": None,
         "referenceanl": None
     }]
-    df = spark_session.createDataFrame(input_data)
+    df = spark_session.createDataFrame(input_data, schema=schema)
     result = clean_result(df).collect()[0]
     assert result["cddept"] == "001"
     assert result["referenceprel"] == "ref1"
