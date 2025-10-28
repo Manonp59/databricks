@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v0.3.0 (2025-10-28)
+
+### Features
+
+- Add ci workflow
+  ([`806915d`](https://github.com/Manonp59/databricks/commit/806915d7a3694c7cee1c4afdb3e8644c744cec00))
+
+- Add test file
+  ([`de5d136`](https://github.com/Manonp59/databricks/commit/de5d136fe74f813aeeeab3622046ecb30ee2f9b5))
+
+
 ## v0.2.0 (2025-10-28)
 
 ### Features
