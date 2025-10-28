@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.3.2 (2025-10-28)
+
+### Bug Fixes
+
+- Fix ci workflow
+  ([`965f3c9`](https://github.com/Manonp59/databricks/commit/965f3c97a550d4b50b670d1c0f7d49b96a3658e2))
+
+
 ## v0.3.1 (2025-10-28)
 
 ### Bug Fixes
