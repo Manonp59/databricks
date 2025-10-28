@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v0.5.0 (2025-10-28)
+
+### Bug Fixes
+
+- Fix clean plv function
+  ([`8eab4cb`](https://github.com/Manonp59/databricks/commit/8eab4cb739a8056e1a5ddb5c1ce3bfcb0cda42a1))
+
+### Features
+
+- Add schema
+  ([`95e1655`](https://github.com/Manonp59/databricks/commit/95e1655f0e4b1e8d2f0a569336ba88a55ce0f18f))
+
+
 ## v0.4.0 (2025-10-28)
 
 ### Features
