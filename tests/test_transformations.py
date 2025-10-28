@@ -1,6 +1,6 @@
 import pytest
 from pyspark.sql import SparkSession
-from scripts.03_BRONZE_TO_SILVER import clean_plv, clean_commune, clean_result  
+from scripts.utils import clean_plv, clean_commune, clean_result  
 
 @pytest.fixture(scope="session")
 def spark_session():

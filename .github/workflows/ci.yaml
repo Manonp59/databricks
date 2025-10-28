@@ -1,0 +1,29 @@
+name: PySpark tests
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+        name: Install uv
+      - name: Install dependencies
+        run: |
+          uv sync
+      - name: Run tests
+        run: pytest
