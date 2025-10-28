@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.4.0 (2025-10-28)
+
+### Features
+
+- Add columns in dataframe tests
+  ([`5bafe9f`](https://github.com/Manonp59/databricks/commit/5bafe9f36530eecdb4dad84e01ebcf3c5dada412))
+
+
 ## v0.3.3 (2025-10-28)
 
 ### Bug Fixes
