@@ -28,7 +28,16 @@ def clean_plv(df: DataFrame) -> DataFrame:
         .withColumn("pourcentdebit", F.regexp_replace(F.col("pourcentdebit"), "[^0-9]", "").cast("int"))
         .withColumn("referenceprel", F.trim(F.col("referenceprel")))
         .withColumn("dateprel", F.to_date(F.col("dateprel"), "yyyy-MM-dd"))
-        .withColumn("heureprel", F.regexp_replace(F.col("heureprel"), r"^(\d{2})h(\d{2})$", r"\1:\2"))
+        .withColumn("heureprel",
+                    F.when(
+                        F.col("heureprel").rlike(r"^\d{2}h\d{2}$"),
+                        F.concat(
+                            F.regexp_extract("heureprel", r"^(\d{2})h", 1),
+                            F.lit(":"),
+                            F.regexp_extract("heureprel", r"h(\d{2})$", 1)
+                        )
+                    ).otherwise(F.col("heureprel"))
+                )
         .withColumn("conclusionprel", F.trim(F.col("conclusionprel")))
         .withColumn("ugelib", F.trim(F.col("ugelib")))
         .withColumn("distrlib", F.trim(F.col("distrlib")))
