@@ -8,13 +8,29 @@ def spark_session():
 
 def test_clean_plv(spark_session):
     data = [
-        {"cddept": "1", "cdreseau": "23", "heureprel": "08h34", "pourcentdebit": "25 %", "nomcommuneprinc": " Lyon "},
+        {
+            "cddept": "1",
+            "cdreseau": "23",
+            "inseecommuneprinc": "7",              # colonne attendue !
+            "nomcommuneprinc": " Lyon ",
+            "cdreseauamont": "",
+            "nomreseauamont": None,
+            "pourcentdebit": "25 %",
+            "referenceprel": None,
+            "dateprel": None,
+            "heureprel": "08h34",
+            "conclusionprel": None,
+            "ugelib": None,
+            "distrlib": None,
+            "moalib": None
+        },
     ]
     df = spark_session.createDataFrame(data)
     result = clean_plv(df)
     row = result.collect()[0]
     assert row["cddept"] == "001"
     assert row["cdreseau"] == "000000023"
+    assert row["inseecommuneprinc"] == "00007"
     assert row["heureprel"] == "08:34"
     assert row["pourcentdebit"] == 25
     assert row["nomcommuneprinc"] == "LYON"
@@ -33,7 +49,25 @@ def test_clean_commune(spark_session):
     assert str(rows[0]["debutalim"]) == "2023-01-05"
 
 def test_clean_result(spark_session):
-    input_data = [{"cddept":"1", "referenceprel":" ref1 ","limitequal":"3,4", "valtraduite":"2,5", "qualitparam":" c "}]
+    input_data = [{
+        "cddept":"1",
+        "referenceprel":" ref1 ",
+        "cdparametresiseeaux": None,
+        "cdparametre": None,
+        "libmajparametre": None,
+        "libminparametre": None,
+        "libwebparametre": None,
+        "qualitparam":" c ",
+        "insituana": None,
+        "rqana": None,
+        "cdunitereferencesiseeaux": None,
+        "cdunitereference": None,
+        "limitequal":"3,4",
+        "refqual": None,
+        "valtraduite":"2,5",
+        "casparam": None,
+        "referenceanl": None
+    }]
     df = spark_session.createDataFrame(input_data)
     result = clean_result(df).collect()[0]
     assert result["cddept"] == "001"
