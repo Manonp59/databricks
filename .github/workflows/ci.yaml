@@ -1,0 +1,22 @@
+name: PySpark tests
+
+on: 
+  push:
+    branches:
+      - main
+      - feat/write-tests
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install the project
+        run: uv sync 
+
+      - name: Run tests
+        run: uv run pytest tests
