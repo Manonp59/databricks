@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.7.0 (2025-10-29)
+
+### Features
+
+- Add doc
+  ([`4f9ef68`](https://github.com/Manonp59/databricks/commit/4f9ef683aa6e529e177c96b860cea4f49f43048e))
+
+
 ## v0.6.0 (2025-10-29)
 
 ### Features
