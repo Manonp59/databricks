@@ -1,66 +1,73 @@
-Voici une documentation cohérente basée sur les fichiers sources fournis :
+### Documentation Globale pour l'Ingestion et Traitement de Données
+
+Ce document fournit une vue d'ensemble des processus d'ingestion, de transformation, et de validation de données pour créer une architecture "Médaille" dans Databricks. Le processus est structuré avec des notebooks contenant des étapes spécifiques, et est intégré dans un flux de travail CI/CD avec des tests et validations. 
+
+#### Table des matières
+
+1. **Introduction**
+2. **Architecture Médaille**
+   - 2.1. Ingestion des Données
+   - 2.2. Traitement des Données
+   - 2.3. Structuration Médaille
+3. **Workflow GitHub et CI/CD**
+   - 3.1. Intégration Continue
+   - 3.2. Release Sémantique
+4. **Validation des Données**
+   - 4.1. Tests Unitaires
+   - 4.2. Validation avec Great Expectations
+5. **Conclusion**
 
 ---
 
-## Documentation Globale
+### 1. Introduction
 
-### 1. Contexte
+Ce document détaille les processus utilisés pour ingérer, traiter, et valider les données à l'aide de Databricks, structuré autour de la méthodologie "Médaille" (Bronze, Silver, Gold).
 
-L'ensemble des fichiers source fournis concerne la manipulation et la gestion de données à l'aide de divers modules Python, avec un accent particulier sur l'utilisation de la librairie `pyspark` pour le traitement de données en masse et l'interaction avec le stockage Azure.
+### 2. Architecture Médaille
 
-### 2. Objectif
+#### 2.1. Ingestion des Données
 
-Le projet vise à configurer et administrer un système pour extraire, nettoyer, charger et analyser des jeux de données provenant d'archives `.zip`, en utilisant des services de stockage Azure, et rendre ces données disponibles pour des analyses avancées.
+L'ingestion des données se fait en plusieurs étapes :
 
-### 3. Architecture du Système
+- **Téléchargement des Fichiers** : Les données sources sont téléchargées sous forme de fichiers `.zip` depuis des liens externes. Ceux-ci sont extraits et uniquement les fichiers `.txt` sont conservés pour être traités dans les dossiers de l'année spécifiée.
+- **Paramètres de Stockage** : Les fichiers sont stockés et organisés avec des identifiants uniques pour les distinguer des datasets précédemment ingérés.
+- **Assemblage des Données** : Les données brutes sont organisées dans des tables "Bronze" pour un traitement initial.
 
-- **Extraction et Téléchargement :**
-  - Les scripts mettent en place une suite de fonctions pour télécharger et décompresser les fichiers `.zip` contenant les données brutes.
-  - Utilisation de `wget` pour télécharger les fichiers et extraction avec `zipfile`.
+#### 2.2. Traitement des Données
 
-- **Interaction avec Azure Blob Storage :**
-  - Configuration de clients de service Azure pour gérer le stockage des fichiers extraits.
-  - Création de fonctions pour télécharger les fichiers extraits vers les conteneurs Azure Blob Storage afin de centraliser le stockage.
+Le traitement des données implique la transformation des fichiers `.txt` extraits vers des tables spatiales, appelées tables "Silver". Cette étape comprend des nettoyages de base tels que la suppression des doublons et le remplissage des valeurs manquantes. 
 
-- **Traitement des Données avec PySpark :**
-  - Les données extraites sont ensuite traitées avec `pyspark` et nettoyées pour s'assurer qu'elles répondent aux standards de qualité requis.
-  - Modules dédiés pour le nettoyage des données (`clean_commune`, `clean_plv`, etc.) en standardisant les colonnes d'après des règles business.
+#### 2.3. Structuration Médaille
 
-- **Analytique et Résultats :**
-  - Plusieurs fonctions sont implémentées pour combiner et analyser les résultats des données nettoyées, en tenant compte des événements échantillons ou analytiques (`silvergold_com`, `silver_sample_events`, etc.).
-  - Extraction des statistiques clé pour différentes dimensions et événements.
+- **Tables Bronze** : Contiennent les données brutes comme initialement reçues.
+- **Tables Silver** : Contiennent des données nettoyées et standardisées.
+- **Tables Gold** : Représentent les données agrégées et modélisées prêtes pour l'analyse. Les transformations incluent des agrégations statistiques et ajoutent de la précision à travers des jointures et filtres appliqués.
 
-### 4. Configuration Azure
+### 3. Workflow GitHub et CI/CD
 
-- **Accès et authentification :**
-  - Les connexions aux services de stockage Azure sont gérées à l'aide de clefs sécurisées stockées et accédées via des champs de métadonnées.
-  - Les configurations sont stockées et appliquées à travers des fonctions pour s'assurer que les accès aux API Azure sont correctement configurés.
+#### 3.1. Intégration Continue
 
-### 5. Fonctionnalités supplémentaires
+Les notebooks utilisent des actions GitHub pour s'assurer que chaque morceau de code poussé dans le répertoire est automatiquement testé et vérifié avec une série de checks.
 
-- **Test et Validation :**
-  - Des scripts de test (basés sur `pytest`) sont fournis pour garantir que les fonctions de nettoyage et d'analyse restituent les résultats attendus.
+#### 3.2. Release Sémantique
 
-- **Modularité du Code :**
-  - Le code est structuré pour une extensibilité facile, avec un module distinct pour chaque tâche clé (extraction, téléchargement, nettoyage, etc.).
+Utilisation de semantic release, un outil automatisé qui génère une version, met à jour le changelog, et publie les releases en fonction des commits.
 
-### 6. Instructions d'Utilisation
+### 4. Validation des Données
 
-1. **Téléchargement et Extraction :**
-   - Utilisez la fonction `download_and_extract_txt_files` pour télécharger et extraire les fichiers `.txt` spécifiques dans un répertoire en local.
+#### 4.1. Tests Unitaires
 
-2. **Chargement et Traitement des Données :**
-   - Utilisez les fonctions `create_bronze_table`, `bronze_plv` et `bronze_com` pour créer des DataFrames Bronze à partir des fichiers CSV.
+Tests écrits en utilisant PyTest et conçus pour vérifier l'intégrité de la transformation de données, en assurant que les tables résultantes respectent les règles de validation de base.
 
-3. **Interfaçage avec Azure :**
-   - Configurez les paramètres de votre compte Azure en utilisant la méthode `set` pour enregistrer la clef de stockage récupérée depuis les secrets de DataBricks.
+#### 4.2. Validation avec Great Expectations
 
-4. **Analyse Avancée :**
-   - Nettoyez les données et exécutez vos analyses avec les fonctions disponibles dans le module d'analyse `clean_result` et l'opération d'enrichissement via `enrich_with_commune`.
+Great Expectations est utilisé pour garantir une validation sur divers points de données et schémas :
+- **Intégrité des données** : Assure que les colonnes contiennent des valeurs dans les formats attendus.
+- **Contrôles Qualité** : Vérifie que les valeurs agrégées respectent les limites définies.
+- **Analytiques** : Validations de cohérence et structure du DataFrame.
 
-5. **Test et Validation :**
-   - Exécutez les tests unitaires fournis pour vous assurer que chaque composant du système fonctionne correctement et que les données traitées sont conformes aux attentes spécifiées.
+### 5. Conclusion
 
----
+Ce workflow détaillé étend l'usage des outils comme Databricks en conjonction avec des solutions modernes de CI/CD pour garantir une architecture robuste et dimensionnée. Les validations avec des outils standards assurent que les données restent fiables et débarrassées des anomalies avant qu'elles ne soient utilisées pour une analyse ou un apprentissage machine plus poussés.
 
-En résumé, cette documentation sert de guide pour paramétrer, exécuter et superviser l'environnement de traitement de données tout en suivi les standards et prérequis définis pour une intégration harmonieuse avec les services Azure.
+Cette documentation décrit chaque étape réalisée dans l'agencement des notebooks et l'automatisation de pipeline pour une gestion efficace des données.
