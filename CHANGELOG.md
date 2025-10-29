@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.9.0 (2025-10-29)
+
+### Features
+
+- Add scripts
+  ([`8d9b5e4`](https://github.com/Manonp59/databricks/commit/8d9b5e4de2159811bb020f3841ed6c93e49c97b1))
+
+
 ## v0.8.0 (2025-10-29)
 
 ### Features
