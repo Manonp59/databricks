@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.11.1 (2025-10-29)
+
+### Bug Fixes
+
+- Fix doc format
+  ([`ce0cf73`](https://github.com/Manonp59/databricks/commit/ce0cf73545bde00ff69445262b493a1619b9e34c))
+
+
 ## v0.11.0 (2025-10-29)
 
 ### Features
