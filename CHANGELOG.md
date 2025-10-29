@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.11.0 (2025-10-29)
+
+### Features
+
+- Update doc
+  ([`95f970d`](https://github.com/Manonp59/databricks/commit/95f970dc02865539e19aa3085903b20abe607228))
+
+
 ## v0.10.0 (2025-10-29)
 
 ### Features
