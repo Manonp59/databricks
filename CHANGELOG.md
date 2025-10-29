@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v0.8.0 (2025-10-29)
+
+### Features
+
+- Add great expectations gold validation
+  ([`1d22ad8`](https://github.com/Manonp59/databricks/commit/1d22ad8dd2132db58d7372f9071eb8c462397521))
+
+- Update ci pipeline
+  ([`1b0cf98`](https://github.com/Manonp59/databricks/commit/1b0cf98ef4134aac68b881e16a91a6b8b1f20ac8))
+
+
 ## v0.7.0 (2025-10-29)
 
 ### Features
