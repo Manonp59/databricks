@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.10.0 (2025-10-29)
+
+### Features
+
+- Delete test.txt file
+  ([`65af612`](https://github.com/Manonp59/databricks/commit/65af6124dd010e40d0ed647f7e28c28fe532dd3a))
+
+
 ## v0.9.0 (2025-10-29)
 
 ### Features
