@@ -32,7 +32,7 @@ scripts/
 ├── 05_DATA_VALIDATION.py
 tests/
 ├── test_transformations.py      # Tests unitaires basée sur Databricks et Azure. L'intégration Git permet une gestion efficace du code, tandis que les pipelines automatisés 
-
+``` 
 ## Pipeline de Données
 
 1. **Source → Landzone** :
@@ -101,7 +101,4 @@ tests/
 Le fichier `test_transformations.py` contient des tests unitaires pour les fonctions de nettoyage :
 - `clean_plv()` : Nettoyage des données de prélèvement
 - `clean_commune()` : Nettoyage des données de communes
-- `clean_result()` : Nettoyage des résultats d'analyse
-
-
-assurent une mise à jour régulière des données.
+- `clean_result()` : Nettoyage des résultats d'analyseà jour régulière des données.
